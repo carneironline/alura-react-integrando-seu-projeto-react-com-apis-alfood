@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import IRestaurante from "../../../interfaces/IRestaurante";
 export default function FormularioRestaurante() {
     const parametros = useParams()
     const [nomeRestaurante, setNomeRestaurante] = useState('')
+    const boxStyle = {display: 'flex', flexDirection: 'column', alignItems: 'center'}
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -34,18 +35,24 @@ export default function FormularioRestaurante() {
                 .then(response => setNomeRestaurante(response.data.nome))
         }
     }, [parametros])
-
+    
     return (
-        <form onSubmit={handleSubmit}>
-            <TextField
-            id="NomeRestaurante"
-            label="Nome do Restaurante"
-            variant="standard"
-            value={nomeRestaurante}
-            onChange={event => setNomeRestaurante(event.target.value)}
-            />
+            <Box sx={boxStyle}>
+                <Typography component="h1" variant="h6">Formulário de Restaurantes</Typography>
+                
+                <Box component="form" onSubmit={handleSubmit}>
+                    <TextField
+                    id="NomeRestaurante"
+                    label="Nome do Restaurante"
+                    variant="standard"
+                    value={nomeRestaurante}
+                    onChange={event => setNomeRestaurante(event.target.value)}
+                    fullWidth
+                    required
+                    />
 
-            <Button type="submit" variant="outlined">Outlined</Button>
-        </form>
+                    <Button sx={{marginTop: 2}} type="submit" variant="outlined" fullWidth>Outlined</Button>
+                </Box>
+            </Box>
     )
 }
