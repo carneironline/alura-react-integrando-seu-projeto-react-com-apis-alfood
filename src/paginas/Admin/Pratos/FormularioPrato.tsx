@@ -18,22 +18,43 @@ export default function FormularioPrato() {
     const boxStyle = {display: 'flex', flexDirection: 'column', alignItems: 'center'}
     const buttonLabel = parametros?.id ? 'Atualizar' : 'Salvar'
 
+    function clearForm() {
+        setNomePrato('')
+        setDescricao('')
+        setTag('')
+        setRestaurante('')
+        setImagem(null)
+    }
+
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        const dataBody = { nome: nomePrato}
+        const formData = new FormData();
 
-        if(parametros.id) {
-            http.put(`pratos/${parametros.id}/`, dataBody)
-            .then(() => {
-                alert(`prato ${nomePrato} atualizado`)
-            })
-        } else {
-            http.post('pratos/', dataBody)
-            .then(() => {
-                alert(`prato cadastrado ${nomePrato}`)
-            })
+        formData.append('nome', nomePrato)
+        formData.append('descricao', descricao)
+        formData.append('tag', tag)
+        formData.append('restaurante', restaurante)
+
+        if(imagem) {
+            formData.append('imagem', imagem)
         }
+
+        http.request({
+            url: 'pratos/',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data: formData
+        })
+            .then(() => alert(`Prato ${nomePrato} cadastrado!`))
+            .catch((err) => {
+                clearForm()
+                console.log(err)
+            })
+
+       
     }
 
     function selecionarArquivo(event: React.ChangeEvent<HTMLInputElement>) {
@@ -91,7 +112,7 @@ export default function FormularioPrato() {
                 <FormControl margin="dense" fullWidth>
                     <InputLabel id="selectTag">Tag</InputLabel>
                     <Select labelId="selectTag" value={tag} onChange={event => setTag(event.target.value)}>
-                        {tags.map(tag => <MenuItem value={tag.id} key={tag.id}>{tag.value}</MenuItem>)}
+                        {tags.map(tag => <MenuItem value={tag.value} key={tag.id}>{tag.value}</MenuItem>)}
                     </Select>
                 </FormControl>
 
