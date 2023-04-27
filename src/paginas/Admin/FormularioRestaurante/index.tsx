@@ -26,8 +26,6 @@ export default function FormularioRestaurante() {
                 alert(`restaurante cadastrado ${nomeRestaurante}`)
             })
         }
-
-        
     }
 
     useEffect(() => {
@@ -38,22 +36,22 @@ export default function FormularioRestaurante() {
     }, [parametros])
     
     return (
-            <Box sx={boxStyle}>
-                <Typography component="h1" variant="h6">Formulário de Restaurantes</Typography>
-                
-                <Box component="form" onSubmit={handleSubmit}>
-                    <TextField
-                    id="NomeRestaurante"
-                    label="Nome do Restaurante"
-                    variant="standard"
-                    value={nomeRestaurante}
-                    onChange={event => setNomeRestaurante(event.target.value)}
-                    fullWidth
-                    required
-                    />
+        <Box sx={boxStyle}>
+            <Typography component="h1" variant="h6">Formulário de Restaurantes</Typography>
+            
+            <Box component="form" onSubmit={handleSubmit} sx={{width: '100%'}}>
+                <TextField
+                id="NomeRestaurante"
+                label="Nome do Restaurante"
+                variant="standard"
+                value={nomeRestaurante}
+                onChange={event => setNomeRestaurante(event.target.value)}
+                fullWidth
+                required
+                />
 
-                    <Button sx={{marginTop: 2}} type="submit" variant="outlined" fullWidth>{buttonLabel}</Button>
-                </Box>
+                <Button sx={{marginTop: 2}} type="submit" variant="outlined" fullWidth>{buttonLabel}</Button>
             </Box>
+        </Box>
     )
 }
