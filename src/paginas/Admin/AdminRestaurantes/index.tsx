@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import IRestaurante from "../../../interfaces/IRestaurante"
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
-import axios from "axios"
 import { Link } from "react-router-dom"
+import http from "../../../http"
 
 export default function AdminRestaurantes() {
     const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([])
 
     function handleExcluir(restaurante: IRestaurante) {
-        axios.delete(`http://localhost:8000/api/v2/restaurantes/${restaurante.id}/`)
+        http.delete(`restaurantes/${restaurante.id}/`)
         .then(() => {
             const listaRestaurante = restaurantes.filter(item => item.id !== restaurante.id)
             setRestaurantes([...listaRestaurante])
@@ -16,7 +16,7 @@ export default function AdminRestaurantes() {
     }
 
     useEffect(() => {
-        axios.get<IRestaurante[]>('http://localhost:8000/api/v2/restaurantes/')
+        http.get<IRestaurante[]>('restaurantes/')
             .then(response => setRestaurantes(response.data))
     }, [])
 
